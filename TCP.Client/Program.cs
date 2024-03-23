@@ -14,7 +14,7 @@ namespace TCP.Client
         {
             try
             {
-                // Set the server's IP address and port
+                // Set the server's IP address and port toconnect
                 string serverIp = "192.168.1.4";
                 int port = 12345;
 
