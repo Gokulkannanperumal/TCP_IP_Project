@@ -30,7 +30,7 @@ namespace TCP.WinClient
                 string serverIp = "192.168.1.4";
                 int port = 12345;
 
-                // Create a TCP/IP socket
+                // Create a TCP/IP socket for client
                 client = new TcpClient(serverIp, port);
 
 
