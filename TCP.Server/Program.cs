@@ -5,6 +5,8 @@ using System.Net.Sockets;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.Serialization.Formatters.Binary;
+using TCPObj;
 
 namespace TCP.Server
 {
@@ -39,21 +41,31 @@ namespace TCP.Server
                     // Get a stream object for reading and writing
                     NetworkStream stream = client.GetStream();
 
-                    // Buffer for the data
-                    byte[] bytes = new byte[2048];
-                    int bytesRead;
-
-                    // Loop to receive all the data sent by the client
-                    while ((bytesRead = stream.Read(bytes, 0, bytes.Length)) != 0)
+                    BinaryFormatter formatter = new BinaryFormatter();
+                    loginObj login = (loginObj)formatter.Deserialize(stream);
+                    string result = string.Empty;
+                    if (login.username.ToUpper() == "GOKUL" && login.password == "9786")
                     {
-                        // Convert the data bytes to a string
-                        string data = Encoding.ASCII.GetString(bytes, 0, bytesRead);
-                        Console.WriteLine($"Received: {data}");
-
-                        // Echo the data back to the client
-                        byte[] response = Encoding.ASCII.GetBytes(data);
-                        stream.Write(response, 0, response.Length);
+                        result = "Valid";
                     }
+                    else
+                        result = "Invalid";
+
+                    // Buffer for the data
+                    //byte[] bytes = new byte[2048];
+                    //int bytesRead;
+
+                        //// Loop to receive all the data sent by the client
+                        //while ((bytesRead = stream.Read(bytes, 0, bytes.Length)) != 0)
+                        //{
+                        //    // Convert the data bytes to a string
+                        //    string data = Encoding.ASCII.GetString(bytes, 0, bytesRead);
+                        //    Console.WriteLine($"Received: {data}");
+
+                        //    // Echo the data back to the client
+                        byte[] response = Encoding.ASCII.GetBytes(result);
+                        stream.Write(response, 0, response.Length);
+                    //}
 
                     // Close the connection
                     client.Close();
